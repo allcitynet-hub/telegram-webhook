@@ -1,3 +1,18 @@
 {
-  "version": 2
+  "version": 2,
+  "builds": [
+    {
+      "src": "telegram-bot.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "telegram-bot.js"
+    }
+  ],
+  "env": {
+    "BOT_TOKEN": "1298834121:AAH9R2V0I0wxwvq9SBObflJDgtognF6X8Y4"
+  }
 }

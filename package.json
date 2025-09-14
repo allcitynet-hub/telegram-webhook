@@ -1,18 +1,24 @@
 {
-  "name": "telegram-webhook",
+  "name": "allcitynet-telegram-bot",
   "version": "1.0.0",
-  "description": "Telegram webhook for notifications",
-  "main": "index.js",
+  "description": "Telegram bot for Allcitynet Portal notifications",
+  "main": "telegram-bot.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "start": "node telegram-bot.js",
+    "dev": "node telegram-bot.js"
   },
   "dependencies": {
-    "next": "^14.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "express": "^4.18.2",
+    "axios": "^1.6.0"
   },
+  "keywords": [
+    "telegram",
+    "bot",
+    "notifications",
+    "allcitynet"
+  ],
+  "author": "Allcitynet Portal",
+  "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
   }
