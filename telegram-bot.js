@@ -9,6 +9,19 @@ const BOT_USERNAME = '@Allcitynet_bot';
 // Middleware для парсинга JSON
 app.use(express.json());
 
+// CORS middleware
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+});
+
 // Функция отправки сообщения в Telegram
 async function sendMessage(chatId, text, parseMode = 'HTML') {
     try {
@@ -155,6 +168,29 @@ async function getBotInfo() {
     }
 }
 
+// Маршрут для проверки статуса
+app.get('/status', async (req, res) => {
+    try {
+        // Проверяем бота
+        const botInfo = await getBotInfo();
+        
+        // Проверяем webhook
+        const webhookInfo = await axios.get(`https://api.telegram.org/bot${BOT_TOKEN}/getWebhookInfo`);
+        
+        res.json({
+            success: true,
+            bot: botInfo,
+            webhook: webhookInfo.data,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
 // Главная страница
 app.get('/', (req, res) => {
     res.send(`
@@ -177,7 +213,7 @@ app.get('/', (req, res) => {
         <hr>
         <p><i>Бот готов к работе! Отправьте ему сообщение в Telegram.</i></p>
     `);
-}
+});
 
 // Экспорт для Vercel
 module.exports = app;
@@ -185,14 +221,14 @@ module.exports = app;
 // Запуск сервера (только для локальной разработки)
 if (process.env.NODE_ENV !== 'production') {
     const PORT = process.env.PORT || 3000;
-
+    
     app.listen(PORT, async () => {
         console.log(`🚀 Сервер запущен на порту ${PORT}`);
         console.log(`🌐 Webhook URL: http://localhost:${PORT}/webhook`);
-
+        
         // Получаем информацию о боте
         await getBotInfo();
-
+        
         console.log('✅ Бот готов к работе!');
         console.log('📱 Отправьте боту сообщение в Telegram для тестирования');
     });
