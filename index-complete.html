@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портал с заявками Allcitynet v2.0 - Полная версия</title>
+    <link rel="stylesheet" href="styles-enhanced.css">
+    <!-- <link rel="manifest" href="manifest.json"> -->
+    <meta name="theme-color" content="#007BFF">
+    <meta name="description" content="Портал управления заявками телекоммуникационных услуг">
+
+    <!-- PWA мета-теги -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Allcitynet Portal">
+
+    <!-- Иконки для PWA (встроенные) -->
+    <link rel="apple-touch-icon"
+        href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMTkiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MF9saW5lYXJfMV8xIiB4MT0iMCIgeTE9IjAiIHgyPSIxOTIiIHkyPSIxOTIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzAwN0JGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMDU2QjMiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8dGV4dCB4PSI5NiIgeT0iMTIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjgwIj7wn5GiPC90ZXh0Pgo8L3N2Zz4K">
+    <link rel="icon" type="image/svg+xml" sizes="192x192"
+        href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMTkiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MF9saW5lYXJfMV8xIiB4MT0iMCIgeTE9IjAiIHgyPSIxOTIiIHkyPSIxOTIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzAwN0JGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMDU2QjMiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8dGV4dCB4PSI5NiIgeT0iMTIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjgwIj7wn5GiPC90ZXh0Pgo8L3N2Zz4K">
+    <link rel="icon" type="image/svg+xml" sizes="512x512"
+        href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNTEiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MF9saW5lYXJfMV8xIiB4MT0iMCIgeTE9IjAiIHgyPSI1MTIiIHkyPSI1MTIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzAwN0JGRiIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMDU2QjMiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8dGV4dCB4PSIyNTYiIHk9IjMyMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMDAiPvCfkaI8L3RleHQ+Cjwvc3ZnPgo=">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>🏢 Портал с заявками Allcitynet v2.0</h1>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="addRequestBtn" onclick="openAddModal()" style="display:none;">
+                    <span class="icon">+</span>
+                    Добавить заявку
+                </button>
+                <button class="btn btn-secondary" id="manageUsersBtn" onclick="openUsersModal()"
+                    style="display:none;">Пользователи</button>
+                <button class="btn btn-warning" id="manageRewardsBtn" onclick="openRewardsModal()"
+                    style="display:none;">💰 Вознаграждения</button>
+                <button class="btn btn-info" id="manageStatusesBtn" onclick="openStatusesModal()"
+                    style="display:none;">📋 Статусы</button>
+                <button class="btn btn-success" id="updateTariffsBtn" onclick="openTariffUpdateModal()"
+                    style="display:none;">🔄 Обновить тарифы</button>
+                <button class="btn btn-dark" id="auditLogsBtn" onclick="openAuditLogsModal()" style="display:none;">📝
+                    Логи изменений</button>
+                <button class="btn btn-primary" id="googleSheetsBtn" onclick="setupGoogleSheetsAPI()"
+                    style="display:none;">📊 Google Sheets</button>
+                <button class="btn btn-warning" id="testRemindersBtn" onclick="testReminders()" style="display:none;">🔔
+                    Тест напоминаний</button>
+                <button class="btn btn-success" id="testTelegramReminderBtn" onclick="testTelegramReminder()" style="display:none;">📱
+                    Тест Telegram напоминаний</button>
+                <button class="btn btn-info" id="forceCheckRemindersBtn" onclick="forceCheckReminders()" style="display:none;">⚡
+                    Проверить напоминания</button>
+                <button class="btn btn-primary" id="setupVercelBtn" onclick="setupVercelWebhook()" style="display:none;">🌐
+                    Настроить Vercel</button>
+                <button class="btn btn-info" id="testEmailJSBtn" onclick="testEmailJS()" style="display:none;">📧 Тест
+                    EmailJS</button>
+                <button class="btn btn-primary" id="testTelegramBtn" onclick="testTelegram()" style="display:none;">📱
+                    Тест Telegram</button>
+                <button class="btn btn-warning" id="testSpecificUserBtn" onclick="testSpecificUser()"
+                    style="display:none;">🔍 Тест пользователя</button>
+                <button class="btn btn-success" id="sendWelcomeBtn" onclick="sendWelcomeToAllUsers()"
+                    style="display:none;">👋 Приветствие всем</button>
+                <button class="btn btn-secondary" id="checkUsersBtn" onclick="checkUsersEmails()"
+                    style="display:none;">👥 Проверить пользователей</button>
+                <button class="btn btn-info" id="loginBtn" onclick="openLoginModal()">Войти</button>
+                <button class="btn btn-warning" id="logoutBtn" onclick="logout()" style="display:none;">Выйти</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Статистика -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalRequests">0</div>
+                    <div class="stat-label">Всего заявок</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🆕</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="newRequests">0</div>
+                    <div class="stat-label">Новые</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚙️</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="inProgressRequests">0</div>
+                    <div class="stat-label">На доработке</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">❌</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="rejectedRequests">0</div>
+                    <div class="stat-label">Отказные</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="completedRequests">0</div>
+                    <div class="stat-label">Выполнены</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💳</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="paidRequests">0</div>
+                    <div class="stat-label">Оплачены</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Дополнительная статистика для агента -->
+        <div class="agent-stats-container" id="agentStatsContainer" style="display: none;">
+            <div class="stat-card agent-reward-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="plannedReward">0</div>
+                    <div class="stat-label">Планируемое вознаграждение</div>
+                </div>
+            </div>
+            <div class="stat-card agent-reward-card">
+                <div class="stat-icon">💳</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="receivedReward">0</div>
+                    <div class="stat-label">Полученное вознаграждение</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Фильтры и поиск -->
+        <div class="filters-container">
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label for="statusFilter">Статус:</label>
+                    <select id="statusFilter" onchange="filterRequests()">
+                        <option value="">Все статусы</option>
+                        <option value="Новая">Новая</option>
+                        <option value="Доработка">Доработка</option>
+                        <option value="Отказ">Отказ</option>
+                        <option value="Выполнена">Выполнена</option>
+                        <option value="Оплачена">Оплачена</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="dateFilter">Дата:</label>
+                    <input type="date" id="dateFilter" onchange="filterRequests()">
+                </div>
+                <div class="filter-group">
+                    <label for="dateFromFilter">С даты:</label>
+                    <input type="date" id="dateFromFilter" onchange="filterRequests()">
+                </div>
+                <div class="filter-group">
+                    <label for="dateToFilter">По дату:</label>
+                    <input type="date" id="dateToFilter" onchange="filterRequests()">
+                </div>
+                <div class="filter-group">
+                    <label for="searchInput">Поиск:</label>
+                    <input type="text" id="searchInput" placeholder="Поиск по клиенту, адресу..."
+                        onkeyup="filterRequests()">
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-secondary" onclick="clearFilters()">Очистить</button>
+                    <button class="btn btn-primary" onclick="openAddModal()">+ Добавить заявку</button>
+                    <button class="btn btn-success" onclick="exportToCSV()" title="Экспорт данных в CSV">📊
+                        Экспорт</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Таблица заявок -->
+        <div class="table-container">
+            <table class="requests-table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Дата и время</th>
+                        <th>Статус заявки</th>
+                        <th>ID агента</th>
+                        <th>Провайдер</th>
+                        <th>Клиент</th>
+                        <th>Телефон</th>
+                        <th>Город</th>
+                        <th>Адрес</th>
+                        <th>Услуга и тариф</th>
+                        <th>Комментарий</th>
+                        <th>Комментарий провайдера</th>
+                        <th>Вознаграждение</th>
+                        <th>Напоминалка</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="requestsTableBody">
+                    <!-- Данные будут загружены через JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content" style="max-width:400px">
+            <div class="modal-header">
+                <h2>Вход</h2>
+                <span class="close" onclick="closeLoginModal()">&times;</span>
+            </div>
+            <form id="loginForm" onsubmit="login(event)" style="padding:20px">
+                <div class="form-group">
+                    <label for="loginEmail">Email:</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Пароль:</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeLoginModal()">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Users Admin Modal -->
+    <div id="usersModal" class="modal">
+        <div class="modal-content" style="max-width:900px; max-height:90vh; overflow-y:auto">
+            <div class="modal-header">
+                <h2>Пользователи</h2>
+                <span class="close" onclick="closeUsersModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="users-section">
+                    <h3>Добавить пользователя</h3>
+                    <form id="addUserForm" onsubmit="addUser(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newUserName">Имя:</label>
+                                <input type="text" id="newUserName" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newUserEmail">Email:</label>
+                                <input type="email" id="newUserEmail" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newUserPassword">Пароль:</label>
+                                <input type="password" id="newUserPassword" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newUserRole">Роль:</label>
+                                <select id="newUserRole" name="role" required onchange="toggleProviderAccess()">
+                                    <option value="agent">Агент</option>
+                                    <option value="operator">Оператор</option>
+                                    <option value="admin">Администратор</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newUserNotificationEmail">Email для уведомлений:</label>
+                                <input type="email" id="newUserNotificationEmail" name="notificationEmail"
+                                    placeholder="example@mail.com">
+                                <small class="form-text">Необязательно. Для получения уведомлений о напоминаниях</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="newUserNotificationPhone">Телефон для уведомлений:</label>
+                                <input type="tel" id="newUserNotificationPhone" name="notificationPhone"
+                                    placeholder="+7 (999) 123-45-67">
+                                <small class="form-text">Необязательно. Для получения SMS уведомлений</small>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newUserNotificationTelegram">Telegram для уведомлений:</label>
+                                <input type="text" id="newUserNotificationTelegram" name="notificationTelegram"
+                                    placeholder="@username (например: @vladislav)">
+                                <small class="form-text">Необязательно. Укажите username пользователя (например:
+                                    @vladislav). Пользователь должен написать боту @Allcitynet_bot первым.</small>
+                            </div>
+                        </div>
+                        <div class="form-group" id="agentIdSection" style="display:none">
+                            <label for="newUserAgentId">ID агента:</label>
+                            <input type="text" id="newUserAgentId" name="agentId"
+                                placeholder="Например: AGENT001, VLAD001">
+                            <small class="form-text">Уникальный идентификатор агента для заявок</small>
+                        </div>
+                        <div class="form-group" id="providerAccessSection" style="display:none">
+                            <label>Доступ к провайдерам:</label>
+                            <div id="providerAccessList" class="providers-list">
+                                <!-- Список провайдеров будет загружен через JavaScript -->
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Добавить</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="users-section">
+                    <h3>Список пользователей</h3>
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Имя</th>
+                                <th>Email</th>
+                                <th>Роль</th>
+                                <th>ID агента</th>
+                                <th>Уведомления</th>
+                                <th>Доступ к провайдерам</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersList">
+                            <!-- Список пользователей будет загружен через JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content" style="max-width:700px; max-height:90vh; overflow-y:auto">
+            <div class="modal-header">
+                <h2>Редактировать пользователя</h2>
+                <span class="close" onclick="closeEditUserModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm" onsubmit="updateUser(event)">
+                    <input type="hidden" id="editUserId" name="userId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editUserName">Имя:</label>
+                            <input type="text" id="editUserName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editUserEmail">Email:</label>
+                            <input type="email" id="editUserEmail" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editUserPassword">Пароль:</label>
+                            <input type="password" id="editUserPassword" name="password"
+                                placeholder="Оставьте пустым, чтобы не менять">
+                            <small style="color: #666; font-size: 11px;">
+                                Минимум 8 символов, заглавные и строчные буквы, цифры, спецсимволы
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="editUserRole">Роль:</label>
+                            <select id="editUserRole" name="role" required onchange="toggleEditProviderAccess()">
+                                <option value="agent">Агент</option>
+                                <option value="operator">Оператор</option>
+                                <option value="admin">Администратор</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editUserNotificationEmail">Email для уведомлений:</label>
+                            <input type="email" id="editUserNotificationEmail" name="notificationEmail"
+                                placeholder="example@mail.com">
+                            <small class="form-text">Необязательно. Для получения уведомлений о напоминаниях</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="editUserNotificationPhone">Телефон для уведомлений:</label>
+                            <input type="tel" id="editUserNotificationPhone" name="notificationPhone"
+                                placeholder="+7 (999) 123-45-67">
+                            <small class="form-text">Необязательно. Для получения SMS уведомлений</small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editUserNotificationTelegram">Telegram для уведомлений:</label>
+                            <input type="text" id="editUserNotificationTelegram" name="notificationTelegram"
+                                placeholder="@username (например: @vladislav)">
+                            <small class="form-text">Необязательно. Укажите username пользователя (например:
+                                @vladislav). Пользователь должен написать боту @Allcitynet_bot первым.</small>
+                        </div>
+                    </div>
+                    <div class="form-group" id="editProviderAccessSection" style="display:none">
+                        <label>Доступ к провайдерам:</label>
+                        <div id="editProviderAccessList" class="providers-list">
+                            <!-- Список провайдеров будет загружен через JavaScript -->
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeEditUserModal()">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rewards Management Modal -->
+    <div id="rewardsModal" class="modal">
+        <div class="modal-content" style="max-width:1200px; max-height:90vh; overflow-y:auto">
+            <div class="modal-header">
+                <h2>💰 Управление вознаграждениями</h2>
+                <span class="close" onclick="closeRewardsModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="rewards-section">
+                    <h3>Таблица вознаграждений по провайдерам и услугам</h3>
+
+                    <!-- Кнопки управления -->
+                    <div class="rewards-controls">
+                        <button class="btn btn-primary" onclick="saveAllRewards()">💾 Сохранить все изменения</button>
+                        <button class="btn btn-secondary" onclick="resetRewardsChanges()">🔄 Сбросить изменения</button>
+                        <button class="btn btn-info" onclick="exportRewardsTable()">📊 Экспорт таблицы</button>
+                    </div>
+
+                    <!-- Таблица вознаграждений -->
+                    <div class="rewards-table-container">
+                        <table class="rewards-table" id="rewardsTable">
+                            <thead>
+                                <tr>
+                                    <th>Провайдер</th>
+                                    <th>Интернет</th>
+                                    <th>Телевидение</th>
+                                    <th>Телефония</th>
+                                    <th>Мобильная связь</th>
+                                    <th>Пакетное предложение</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rewardsTableBody">
+                                <!-- Данные будут загружены динамически -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Статистика -->
+                    <div class="rewards-summary">
+                        <h4>📊 Статистика вознаграждений</h4>
+                        <div class="summary-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Всего провайдеров:</span>
+                                <span class="stat-value" id="totalProviders">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Всего услуг:</span>
+                                <span class="stat-value" id="totalServices">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Среднее вознаграждение:</span>
+                                <span class="stat-value" id="averageReward">0 ₽</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Максимальное вознаграждение:</span>
+                                <span class="stat-value" id="maxReward">0 ₽</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tariff Update Modal -->
+    <div id="tariffUpdateModal" class="modal">
+        <div class="modal-content" style="max-width:1000px; max-height:90vh; overflow-y:auto">
+            <div class="modal-header">
+                <h2>🔄 Обновление тарифов</h2>
+                <span class="close" onclick="closeTariffUpdateModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="tariff-section">
+                    <h3>Выберите провайдеров для обновления</h3>
+                    <div class="providers-selection">
+                        <button class="btn btn-sm btn-outline-primary" onclick="selectAllProviders()">Выбрать
+                            всех</button>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="deselectAllProviders()">Снять
+                            выбор</button>
+                    </div>
+                    <div id="providersList" class="providers-list">
+                        <!-- Список провайдеров будет загружен через JavaScript -->
+                    </div>
+
+                    <div class="update-actions">
+                        <button class="btn btn-success" onclick="startTariffUpdate()" id="startUpdateBtn">
+                            🚀 Начать обновление
+                        </button>
+                    </div>
+
+                    <!-- Прогресс обновления -->
+                    <div id="updateProgress" class="update-progress" style="display: none;">
+                        <div class="progress-header">
+                            <h4>🔄 Обновление тарифов</h4>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <div class="progress-text" id="progressText">0%</div>
+                        </div>
+                        <div class="progress-status" id="progressStatus">Подготовка к обновлению...</div>
+                    </div>
+
+                    <!-- Результаты обновления -->
+                    <div id="updateResults" class="update-results" style="display: none;">
+                        <div class="results-header">
+                            <h4>✅ Результаты обновления</h4>
+                        </div>
+                        <div class="results-stats" id="resultsStats">
+                            <!-- Статистика будет загружена через JavaScript -->
+                        </div>
+                        <div class="results-log" id="resultsLog">
+                            <!-- Лог обновления будет загружен через JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Management Modal -->
+    <div id="statusesModal" class="modal">
+        <div class="modal-content" style="max-width:800px; max-height:90vh; overflow-y:auto">
+            <div class="modal-header">
+                <h2>📋 Управление статусами заявок</h2>
+                <span class="close" onclick="closeStatusesModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- Таблица статусов -->
+                <div class="statuses-section">
+                    <h3>Текущие статусы</h3>
+                    <table id="statusesTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Отображение</th>
+                                <th>Активен</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Статусы будут загружены через JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Форма добавления нового статуса -->
+                <div class="add-status-section">
+                    <h3>Добавить новый статус</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newStatusName">Название статуса:</label>
+                            <input type="text" id="newStatusName" placeholder="Введите название статуса">
+                        </div>
+                        <div class="form-group">
+                            <label for="newStatusColor">Цвет статуса:</label>
+                            <select id="newStatusColor">
+                                <option value="new">Новый (синий)</option>
+                                <option value="revision">Доработка (оранжевый)</option>
+                                <option value="rejected">Отказ (красный)</option>
+                                <option value="completed">Выполнено (зеленый)</option>
+                                <option value="paid">Оплачено (фиолетовый)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success" onclick="addStatus()">
+                                ➕ Добавить статус
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div id="requestModal" class="modal">
+        <div class="modal-content" style="max-width:800px; max-height:90vh; overflow-y:auto">
+            <div class="modal-header">
+                <h2 id="modalTitle">Добавить заявку</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="requestForm" onsubmit="saveRequest(event)" style="padding:20px">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="clientName">Имя клиента *</label>
+                        <input type="text" id="clientName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientPhone">Телефон *</label>
+                        <input type="tel" id="clientPhone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="clientCity">Город *</label>
+                        <input type="text" id="clientCity" value="г. Санкт-Петербург" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientAddress">Адрес *</label>
+                        <input type="text" id="clientAddress" placeholder="Улица, дом, квартира" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="clientComment">Комментарий клиента</label>
+                    <textarea id="clientComment" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="requestStatus">Статус заявки</label>
+                        <select id="requestStatus">
+                            <option value="Новая заявка">Новая заявка</option>
+                            <option value="Направлена провайдеру">Направлена провайдеру</option>
+                            <option value="Назначена">Назначена</option>
+                            <option value="Отказ">Отказ</option>
+                            <option value="Доработка">Доработка</option>
+                            <option value="Выполнена">Выполнена</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="provider">Провайдер *</label>
+                        <select id="provider" required onchange="onProviderChange()">
+                            <option value="">Выберите провайдера</option>
+                            <!-- Провайдеры будут загружены динамически -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Выбор услуги -->
+                <div class="form-group" id="serviceSelectionGroup" style="display: none;">
+                    <label>Услуга *</label>
+                    <div id="serviceButtons" class="service-buttons">
+                        <!-- Кнопки услуг будут загружены динамически -->
+                    </div>
+                </div>
+
+                <!-- Выбор тарифа -->
+                <div class="form-group" id="tariffSelectionGroup" style="display: none;">
+                    <label for="tariff">Тариф *</label>
+                    <select id="tariff" onchange="onTariffChange()">
+                        <option value="">Выберите тариф</option>
+                        <!-- Тарифы будут загружены динамически -->
+                    </select>
+                    <div id="tariffDescription" class="tariff-description" style="display: none;">
+                        <!-- Описание тарифа -->
+                    </div>
+                </div>
+
+                <!-- Информация об услуге и тарифе (только для чтения) -->
+                <div class="form-group" id="serviceInfoGroup" style="display: none;">
+                    <label>Услуга</label>
+                    <div class="readonly-info" id="serviceInfo">
+                        <!-- Информация об услуге будет загружена динамически -->
+                    </div>
+                </div>
+
+                <div class="form-group" id="tariffInfoGroup" style="display: none;">
+                    <label>Тариф</label>
+                    <div class="readonly-info" id="tariffInfo">
+                        <!-- Информация о тарифе будет загружена динамически -->
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="appointmentDate">Дата назначения</label>
+                        <input type="date" id="appointmentDate" onchange="onAppointmentDateChange()">
+                    </div>
+                    <div class="form-group">
+                        <label for="appointmentTime">Время назначения</label>
+                        <input type="time" id="appointmentTime">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="providerComment">Комментарий провайдера</label>
+                    <textarea id="providerComment" rows="3"></textarea>
+                </div>
+
+                <!-- Блок вознаграждений -->
+                <div class="rewards-section"
+                    style="background: var(--bg-secondary); padding: 15px; border-radius: var(--border-radius); margin: 20px 0;">
+                    <h3 style="margin-bottom: 15px; color: var(--text-primary);">💰 Вознаграждение</h3>
+
+                    <!-- Полная версия для админа/оператора -->
+                    <div id="fullRewardsSection">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="rewardType">Тип вознаграждения</label>
+                                <select id="rewardType" onchange="updateRewardDisplay()">
+                                    <option value="">Выберите тип</option>
+                                    <option value="new">Новая заявка</option>
+                                    <option value="completed">Выполненная заявка</option>
+                                    <option value="cancelled">Отмененная заявка</option>
+                                    <option value="custom">Другое</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="rewardAmount">Сумма (руб.)</label>
+                                <input type="number" id="rewardAmount" placeholder="0" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="rewardComment">Комментарий к вознаграждению</label>
+                            <textarea id="rewardComment" rows="2"
+                                placeholder="Дополнительная информация о вознаграждении"></textarea>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                            <span id="rewardDisplay" style="font-weight: 600; color: var(--success-color);">0
+                                руб.</span>
+                            <button type="button" onclick="updateRewardDisplay()"
+                                class="btn btn-sm btn-outline-primary">
+                                🔄 Обновить
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Упрощенная версия для агента -->
+                    <div id="simpleRewardsSection" style="display: none;">
+                        <div class="form-group">
+                            <label for="agentRewardAmount">Сумма вознаграждения (руб.)</label>
+                            <input type="number" id="agentRewardAmount" placeholder="0" readonly
+                                style="background: var(--bg-primary); color: var(--text-secondary);">
+                            <small style="color: var(--text-secondary); font-size: 12px;">
+                                Сумма определяется администратором на основе выбранного провайдера и услуги
+                            </small>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                            <span id="agentRewardDisplay" style="font-weight: 600; color: var(--success-color);">0
+                                руб.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Блок напоминалки -->
+                <div class="reminder-section"
+                    style="background: var(--bg-secondary); padding: 15px; border-radius: var(--border-radius); margin: 20px 0;">
+                    <h3 style="margin-bottom: 15px; color: var(--text-primary);">🔔 Напоминалка</h3>
+                    <div class="reminder-container">
+                        <div class="reminder-inputs">
+                            <input type="date" id="reminderDate" placeholder="Дата">
+                            <input type="time" id="reminderTime" placeholder="Время">
+                        </div>
+                        <div class="reminder-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="reminderEmail" checked>
+                                <span>Email</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="reminderTelegram" checked>
+                                <span>Telegram</span>
+                            </label>
+                        </div>
+                        <small style="color: #6c757d;">Напоминание будет отправлено на указанные при регистрации
+                            контакты</small>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h2>Подтверждение удаления</h2>
+                <span class="close" onclick="closeDeleteModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите удалить заявку?</p>
+                <p><strong id="deleteRequestInfo"></strong></p>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="closeDeleteModal()">Отмена</button>
+                <button class="btn btn-danger" onclick="confirmDelete()">Удалить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audit Logs Modal -->
+    <div id="auditLogsModal" class="modal">
+        <div class="modal-content" style="max-width:1200px; max-height:90vh;">
+            <div class="modal-header">
+                <h2>📝 Логи изменений</h2>
+                <button class="close-btn" onclick="closeAuditLogsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="audit-filters">
+                    <div class="filter-group">
+                        <label for="logUserFilter">Пользователь:</label>
+                        <select id="logUserFilter" onchange="filterAuditLogs()">
+                            <option value="">Все пользователи</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="logActionFilter">Действие:</label>
+                        <select id="logActionFilter" onchange="filterAuditLogs()">
+                            <option value="">Все действия</option>
+                            <option value="create">Создание</option>
+                            <option value="update">Изменение</option>
+                            <option value="delete">Удаление</option>
+                            <option value="login">Вход</option>
+                            <option value="logout">Выход</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="logDateFilter">Дата:</label>
+                        <input type="date" id="logDateFilter" onchange="filterAuditLogs()">
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-secondary" onclick="clearAuditFilters()">Очистить</button>
+                        <button class="btn btn-success" onclick="exportAuditLogs()">📊 Экспорт</button>
+                    </div>
+                </div>
+
+                <div class="audit-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Всего записей:</span>
+                        <span class="stat-value" id="totalLogs">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Показано:</span>
+                        <span class="stat-value" id="filteredLogs">0</span>
+                    </div>
+                </div>
+
+                <div class="audit-logs-container">
+                    <table class="audit-logs-table">
+                        <thead>
+                            <tr>
+                                <th>Время</th>
+                                <th>Пользователь</th>
+                                <th>Действие</th>
+                                <th>Объект</th>
+                                <th>Изменения</th>
+                                <th>IP</th>
+                            </tr>
+                        </thead>
+                        <tbody id="auditLogsTableBody">
+                            <!-- Данные будут загружены через JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Загрузка скриптов -->
+    <script src="universal-tariff-parser.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="script-complete.js"></script>
+
+    <!-- Service Worker для PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+    <script src="test-script.js"></script>
+</body>
+
+</html>
