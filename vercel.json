@@ -1,18 +1,21 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "telegram-bot.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api/webhook.js": {
+      "maxDuration": 30
     }
-  ],
+  },
   "routes": [
     {
+      "src": "/api/webhook",
+      "dest": "/api/webhook.js"
+    },
+    {
       "src": "/(.*)",
-      "dest": "telegram-bot.js"
+      "dest": "/api/webhook.js"
     }
   ],
   "env": {
-    "BOT_TOKEN": "1298834121:AAH9R2V0I0wxwvq9SBObflJDgtognF6X8Y4"
+    "NODE_ENV": "production"
   }
 }
