@@ -1,14 +1,13 @@
 {
   "name": "allcitynet-telegram-bot",
   "version": "1.0.0",
-  "description": "Telegram bot for Allcitynet Portal",
-  "main": "telegram-bot.js",
+  "description": "Telegram bot for Allcitynet portal notifications",
+  "main": "api/webhook.js",
   "scripts": {
-    "start": "node telegram-bot.js",
-    "dev": "node telegram-bot.js"
+    "start": "node api/webhook.js",
+    "dev": "vercel dev"
   },
   "dependencies": {
-    "express": "^4.18.2",
     "axios": "^1.6.0"
   },
   "engines": {
@@ -17,9 +16,8 @@
   "keywords": [
     "telegram",
     "bot",
-    "allcitynet",
-    "portal",
-    "notifications"
+    "notifications",
+    "vercel"
   ],
   "author": "Allcitynet",
   "license": "MIT"
